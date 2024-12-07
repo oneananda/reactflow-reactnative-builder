@@ -7,7 +7,7 @@ import { generateReactNativeCode } from './utils/codeGenerator';
 import CodeGeneratorButton from './components/CodeGeneratorButton';
 
 const initialNodes = [
-    { id: '1', type: 'input', data: { label: 'Start Page' }, position: { x: 250, y: 0 } },
+    { id: '1', type: 'input', data: { label: 'Start Page' }, position: { x: 250, y: 0 }, draggable: true },
 ];
 
 const initialEdges = [];
@@ -31,6 +31,7 @@ const App = () => {
             type: nodeType,
             position,
             data: { label: `${nodeType} Node` },
+            draggable: true,
         };
         setNodes((nds) => [...nds, newNode]);
     };
@@ -40,12 +41,19 @@ const App = () => {
         event.dataTransfer.dropEffect = 'move';
     };
 
+    const onNodesChange = (changes) =>
+        setNodes((nds) =>
+            nds.map((node) => {
+                const change = changes.find((c) => c.id === node.id);
+                return change ? { ...node, ...change } : node;
+            })
+        );
+
     const onConnect = (params) => setEdges((eds) => addEdge(params, eds));
 
     const onGenerateCode = () => {
         const code = generateReactNativeCode(nodes);
-        console.log('Generated Code:\n', code);
-        alert('Check the console for the generated code!');
+        return code;
     };
 
     return (
@@ -55,10 +63,13 @@ const App = () => {
                 <ReactFlow
                     nodes={nodes}
                     edges={edges}
+                    onNodesChange={onNodesChange}
                     onConnect={onConnect}
                     onDrop={onDrop}
                     onDragOver={onDragOver}
                     nodeTypes={nodeTypes}
+                    snapToGrid={true}
+                    snapGrid={[15, 15]}
                     fitView
                 >
                     <Controls />

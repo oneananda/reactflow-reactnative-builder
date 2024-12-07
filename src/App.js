@@ -56,6 +56,17 @@ const App = () => {
         return code;
     };
 
+    // Suppress ResizeObserver loop error
+    const resizeObserverError = (e) => {
+        if (e.message === 'ResizeObserver loop completed with undelivered notifications.') {
+            return;
+        }
+        console.error(e);
+    };
+
+    window.addEventListener('error', resizeObserverError);
+
+
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
             <Sidebar />

@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import ReactFlow, { addEdge, Controls } from 'reactflow';
+import 'reactflow/dist/style.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const initialNodes = [
+    { id: '1', type: 'input', data: { label: 'Start Page' }, position: { x: 250, y: 0 } },
+];
+
+const initialEdges = [];
+
+const App = () => {
+    const [nodes, setNodes] = useState(initialNodes);
+    const [edges, setEdges] = useState(initialEdges);
+
+    const onConnect = (params) => setEdges((eds) => addEdge(params, eds));
+
+    return (
+        <div style={{ width: '100vw', height: '100vh' }}>
+            <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onConnect={onConnect}
+                fitView
+            >
+                <Controls />
+            </ReactFlow>
+        </div>
+    );
+};
 
 export default App;

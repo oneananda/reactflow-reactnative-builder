@@ -33,7 +33,7 @@ const ViewNode = ({ data }) => {
     );
 };
 
-// Export node types
+// Export the node types
 export const nodeTypes = {
     text: TextNode,
     button: ButtonNode,

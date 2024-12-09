@@ -1,10 +1,6 @@
 import React from 'react';
-import './Sidebar.css'; // Optional: Add custom styling for the sidebar if needed
+import './Sidebar.css'; // We'll add this file next for styling.
 
-/**
- * Sidebar Component
- * Provides draggable React Native components like Text, Button, and View.
- */
 const Sidebar = () => {
     const onDragStart = (event, nodeType) => {
         event.dataTransfer.setData('application/reactflow', nodeType);
